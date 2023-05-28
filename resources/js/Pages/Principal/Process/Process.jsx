@@ -2,45 +2,44 @@ import Dropdown from '@/Components/Dropdown'
 import InputError from '@/Components/InputError'
 import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-const Process = ({process, actors, actors_processes}) => {
-  const [value,setValue] = useState([]);
-  useEffect(() => {
-    actors_processes.map( actor => {
-      actor.process_id == process.id &&
-      setValue([...value, actor.actor_id])
-    })
-  },[])
-  const [editing, setEditing] = useState(false)
+const Process = ({process, info, actors, actorID}) => {
+    const [editing, setEditing] = useState(false)
     const {data, setData, post, processing, reset, errors} = useForm({
         template_name: process.template_name,
         name: process.name,
         description: process.description,
         entry: process.entry,
         image: process.image,
-        actors: actors,
+        actors: [],
         project_id: process.project_id
     })
+    const clean = (e) => {
+        for (let i=0; i<data.actors.length; i++) {
+            if(data.actors[i]===e.target.value){
+                data.actors.splice(i, 1);
+            }
+        }
+    }
     const submit = (e) => {
         e.preventDefault()
         post(route('processes_update', process.id),{onSuccess: ()=> setEditing(false)})
     }
-  return (
+    return (
     <table className="w-full border-collapse border-separate border-1 border-black border-gray-200 my-6 ">
             {editing
                 ? <div>
-                    <form onSubmit={submit}>
+                    <form onSubmit={submit} encType='multipart/form-data'>
                     <tr>
                         <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Clave
+                            Clave de plantilla
                         </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                        <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
                             <input
                                 type="text"
-                                value={data.key}
-                                autoFocus
-                                onChange={(e) => setData('key', e.target.value)}
+                                value={data.template_name}
+                                onChange={(e) => setData('template_name', e.target.value)}
                                 className='block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
                             />
                         </td>
@@ -60,148 +59,159 @@ const Process = ({process, actors, actors_processes}) => {
                     </tr>
                     <tr>
                         <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Descripción
+                            Actores
                         </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <textarea
-                                value={data.description}
-                                onChange={(e) => setData('description', e.target.value)}
-                                className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Características
-                        </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <textarea
-                                value={data.characteristics}
-                                onChange={(e) => setData('characteristics', e.target.value)}
-                                className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Relaciones
-                        </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <textarea
-                                value={data.relations}
-                                onChange={(e) => setData('relations', e.target.value)}
-                                className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Responsabilidades
-                        </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <textarea
-                                value={data.responsability}
-                                onChange={(e) => setData('responsability', e.target.value)}
-                                className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Actividades de entrada
-                        </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <textarea
-                                value={data.entry_activities}
-                                onChange={(e) => setData('entry_activities', e.target.value)}
-                                className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                            Actividades de salida
-                        </td>
-                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <textarea
-                                value={data.exit_activities}
-                                onChange={(e) => setData('exit_activities', e.target.value)}
-                                className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td className='w-full'>
-                            <div className="flex justify-end">
-                                <InputError message={errors.message} className='mt-2'></InputError>
-                                <PrimaryButton className='mt-4 mr-4'>Guardar</PrimaryButton>
-                                <button
-                                    className='inline-flex items-center mt-4 px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest active:bg-gray-300 transition ease-in-out duration-150'
-                                    onClick={()=>setEditing(false) && reset()}
-                                >
-                                    Cancelar
-                                </button>
+                        <td className="flex bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            <div style={{width: '50%'}} className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                                <label>Actores actuales:</label>
+                                {actors.map( actor => {
+                                    return(
+                                    <div key={actor.id}>
+                                        {actorID.includes(actor.id)
+                                        ? <label className='text-green-500'>  [{actor.key}] {actor.name}</label>
+                                        : <label className='text-red-500'>  [{actor.key}] {actor.name}</label>
+                                    }
+                                    </div>)
+                                })}
+                            </div>
+                            <div style={{width: '50%'}} className="w-50 bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                                <label>Nuevos actores: (obligatorio)</label>
+                                {actors.map( actor => {
+                                    return(
+                                    <div key={actor.id}>
+                                        <input
+                                            type="checkbox"
+                                            value={actor.id}
+                                            onChange={(e) =>{
+                                                !data.actors.includes(e.target.value)
+                                                ? setData('actors', [...data.actors, e.target.value])
+                                                : clean(e)
+                                            }}
+                                            className='rounded-md border-gray-300 text-gray-600 focus:border-blue-500 focus:ring-blue-500'
+                                        />
+                                        <label>  [{actor.key}] {actor.name}</label>
+                                    </div>)
+                                })}
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Descripción
+                        </td>
+                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
+                                <textarea
+                                    value={data.description}
+                                    onChange={(e) => setData('description', e.target.value)}
+                                    className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
+                                />
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Flujo de actividades
+                        </td>
+                        <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
+                                <textarea
+                                    value={data.entry}
+                                    onChange={(e) => setData('entry', e.target.value)}
+                                    className='block w-full text-gray-900 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
+                                />
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2} className="text-center bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Interfaz de usuario
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2} className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed" >
+                            <img className='mx-auto max-w-full h-auto object-cover' src={process.image} alt="" />
+                            <label>(obligatorio) Nueva interfaz de usuario: </label>
+                            <input
+                                type="file"
+                                accept='Image/*'
+                                onChange={(e) => setData('image', e.target.files[0])}
+                                className='mb-3 w-full py-2'
+                            />
+                        </td>
+                    </tr>
+                        <InputError message={errors.message} className='mt-2'></InputError>
+                        <div className="flex justify-end">
+                            <PrimaryButton className='mt-4 mr-4'>Guardar</PrimaryButton>
+                            <button
+                                className='inline-flex items-center mt-4 px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest active:bg-gray-300 transition ease-in-out duration-150'
+                                onClick={()=>setEditing(false) && reset()}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
                     </form>
                 </div>
                 : (
                     <>
                     <tr>
-                      <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                          Clave de plantilla
-                      </td>
-                      <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                          {process.template_name}
-                      </td>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Clave de plantilla
+                        </td>
+                        <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            {process.template_name}
+                        </td>
                     </tr>
                     <tr>
-                      <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                          Nombre
-                      </td>
-                      <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                          {process.name}
-                      </td>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Nombre
+                        </td>
+                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            {process.name}
+                        </td>
                     </tr>
                     <tr>
-                      <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                          Actores
-                      </td>
-                      <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                        {console.log(value)}
-                      </td>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Actores
+                        </td>
+                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            {info.map( info =>
+                                info.process == process.id &&
+                                <div key={info.key}>
+                                    <p>[{info.key}] {info.name}</p>
+                                </div>
+                            )}
+                        </td>
                     </tr>
                     <tr>
-                      <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                          Descripción
-                      </td>
-                      <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                          <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
-                              {process.description}
-                          </pre>
-                      </td>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Descripción
+                        </td>
+                        <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
+                                {process.description}
+                            </pre>
+                        </td>
                     </tr>
                     <tr>
-                      <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                        Flujo de actividades
-                      </td>
-                      <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                        <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
-                            {process.entry}
-                        </pre>
-                      </td>
+                        <td className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Flujo de actividades
+                        </td>
+                        <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
+                            <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
+                                {process.entry}
+                            </pre>
+                        </td>
                     </tr>
                     <tr>
-                      <td colSpan={2} className="text-center bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
-                          Interfaz de usuario
-                      </td>
+                        <td colSpan={2} className="text-center bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-2 text-gray-700 text-sm font-medium">
+                            Interfaz de usuario
+                        </td>
                     </tr>
                     <tr>
-                      <td colSpan={2} className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed" >
-                        <img className='mx-auto max-w-full h-auto object-cover' src={process.image} alt="" />
-                      </td>
+                        <td colSpan={2} className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed" >
+                            <img className='mx-auto max-w-full h-auto object-cover' src={process.image} alt="" />
+                        </td>
                     </tr>
                     <tr>
                         <td></td>

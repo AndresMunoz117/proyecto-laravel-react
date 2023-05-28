@@ -13,11 +13,34 @@ class ProcessController extends Controller
 {
     public function index(string $project)
     {
+        $info = [];
+        $processes = Process::where('project_id', $project)->get();
+        foreach ($processes as $process){
+            $actors_processes = Actor_Process::where('process_id', $process->id)->get();
+            foreach ($actors_processes as $actor_process) {
+                $actor = Actor::find($actor_process->actor_id);
+                $info[] = (object) [
+                    'process' => $process->id,
+                    'actor' => $actor->id,
+                    'key' => $actor->key,
+                    'name' => $actor->name
+                ];
+            }
+        }
+
+        $actorID = collect($info)->groupBy('process')->map(function ($actorID) {
+            return [
+                'process' => $actorID->first(),
+                'actors' => $actorID->pluck('actor')
+            ];
+        });
+
         return Inertia::render('Principal/Process/Index', [
             'project' => $project,
-            'processes' => Process::where('project_id', $project)->get(),
+            'processes' => $processes,
+            'info' => $info,
+            'actorID' => $actorID,
             'actors' => Actor::where('project_id', $project)->get(),
-            'actors_processes' => Actor_Process::all()
         ]);
     }
 
@@ -73,29 +96,52 @@ class ProcessController extends Controller
     public function update(Request $request, string $id)
     {
         //data validation
-        $validated = $request->validate([
-            'key' => 'required|string|max:100',
+        $request->validate([
+            'template_name' => 'required|string|max:100',
             'name' => 'required|string|max:100',
             'description' => 'required|string|max:100',
-            'characteristics' => 'required|string|max:100',
-            'relations' => 'required|string|max:100',
-            'responsability' => 'required|string|max:100',
-            'entry_activities' => 'required|string|max:100',
-            'exit_activities' => 'required|string|max:100',
+            'entry' => 'required|string|max:100',
+            'image' => 'required|image',
+            'actors' => 'required',
             'project_id' => 'required'
         ]);
 
-        $actor = Actor::find($id);
-        $actor->update($validated);
+        $image = $request->file('image')->store('public/ui');
+        $url = Storage::url($image);
+        Process::where('id', $id)->update([
+            'template_name' => $request->template_name,
+            'name' => $request->name,
+            'description' => $request->description,
+            'entry' => $request->entry,
+            'image' => $url,
+            'project_id' => $request->project_id
+        ]);
 
-        return redirect(route('actors_index', $actor->project_id));
+        Actor_Process::where('process_id', $id)->delete();
+
+        $actors = $request->actors;
+
+        foreach ($actors as $actor) {
+            $process_actor = new Actor_Process();
+            $process_actor->actor_id = +$actor;
+            $process_actor->process_id = $id;
+
+            $process_actor->save();
+        }
+
+        $process = Process::find($id);
+
+        return redirect(route('processes_index', $process->project_id));
     }
 
     public function destroy(string $id)
     {
-        $actor = Actor::find($id);
-        $actor->delete();
+        $process = Process::find($id);
+        $process->delete();
 
-        return redirect(route('actors_index', $actor->project_id));
+        $actor_process = Actor_Process::where('process_id', $id)->get();
+        $actor_process->each->delete();
+
+        return redirect(route('processes_index', $process->project_id));
     }
 }

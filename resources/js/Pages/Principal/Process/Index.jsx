@@ -1,17 +1,10 @@
 import NavLink from '@/Components/NavLink'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
-import React, { useState } from 'react'
+import React from 'react'
 import Process from './Process'
 
-const Index = ({auth, actors, processes, actors_processes, project}) => {
-    const [apValue,setApValue] = useState([])
-    const dataP = (process) => {
-        actors_processes.map( actor_process =>
-            process == actor_process.process_id &&
-            setApValue([...apValue, actor_process.actor_id])
-        )
-    }
+const Index = ({auth, processes, info, actors, actorID, project}) => {
     return (
         <Authenticated user={auth}>
             <Head title="Processes" />
@@ -23,17 +16,7 @@ const Index = ({auth, actors, processes, actors_processes, project}) => {
                     NUEVO PROCESO
                 </NavLink>
                 {processes.map( process =>
-                    dataP(process.id)
-                        // actors_processes.map(actor_process => {
-                        //     actor_process.process_id == process.id &&
-                        //     setApValue([...apValue, actor_process.actor_id])
-                        // })
-                        // actors.map(actor => {
-                        //     actor.id == process.id &&
-                        //     setApValue([...apValue, actor_process.actor_id])
-                        // })
-                    
-                    //<Process key={process.id} process={process} actors={actors} actors_processes={actors_processes} />
+                    <Process key={process.id} process={process} info={info} actors={actors} actorID={actorID[process.id].actors} />
                 )}
             </div>
         </Authenticated>
