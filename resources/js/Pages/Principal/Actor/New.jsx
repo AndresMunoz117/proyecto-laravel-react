@@ -25,15 +25,17 @@ const New = ({auth, project}) => {
             <Head title="Create Requirement" />
             <div className='max-w-2x1 mx-auto p-4 sm:p-6 lg:p-8'>
                 <form onSubmit={submit} className='w-full max-w-md mx-auto mt-8'>
+                    <label>Clave:</label>
                     <input
                         type="text"
                         value={data.key}
                         autoFocus
                         onChange={(e) => setData('key', e.target.value)}
-                        placeholder='Clave'
+                        placeholder='Clave cel actor'
                         className='shadow mb-3 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.key} className='mt-3' />
+                    <label>Nombre:</label>
                     <input
                         type="text"
                         value={data.name}
@@ -42,6 +44,7 @@ const New = ({auth, project}) => {
                         className='shadow mb-3 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.name} className='mt-3' />
+                    <label>Descripción:</label>
                     <textarea
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
@@ -49,6 +52,7 @@ const New = ({auth, project}) => {
                         className='h-[120px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.description} className='mb-3' />
+                    <label>Características:</label>
                     <textarea
                         value={data.characteristics}
                         onChange={(e) => setData('characteristics', e.target.value)}
@@ -56,6 +60,7 @@ const New = ({auth, project}) => {
                         className='h-[120px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.characteristics} className='mb-3' />
+                    <label>Relaciones:</label>
                     <textarea
                         value={data.relations}
                         onChange={(e) => setData('relations', e.target.value)}
@@ -63,6 +68,7 @@ const New = ({auth, project}) => {
                         className='h-[120px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.relations} className='mb-3' />
+                    <label>Responsabilidades:</label>
                     <textarea
                         value={data.responsability}
                         onChange={(e) => setData('responsability', e.target.value)}
@@ -70,17 +76,19 @@ const New = ({auth, project}) => {
                         className='h-[120px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.responsability} className='mb-3' />
+                    <label>Actividades de entrada:</label>
                     <textarea
                         value={data.entry_activities}
                         onChange={(e) => setData('entry_activities', e.target.value)}
-                        placeholder='Actividades de entrada'
+                        placeholder='Actividades'
                         className='h-[120px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.entry_activities} className='mb-3' />
+                    <label>Actividades de salida:</label>
                     <textarea
                         value={data.exit_activities}
                         onChange={(e) => setData('exit_activities', e.target.value)}
-                        placeholder='Actividades de salida'
+                        placeholder='Actividades'
                         className='h-[120px] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.exit_activities} className='mb-3' />

@@ -29,7 +29,7 @@ class EntityController extends Controller
         $request->validate([
             'key' => 'required|string|max:100',
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
+            'description' => 'required|string',
             'project_id' => 'required'
         ]);
 
@@ -50,7 +50,7 @@ class EntityController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:100',
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
+            'description' => 'required|string',
             'project_id' => 'required'
         ]);
 

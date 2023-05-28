@@ -34,6 +34,18 @@ const Show = ({auth, projects}) => {
                 >
                     PROCESOS
                 </NavLink>
+                <NavLink
+                    className='w-[100%] mb-8 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 text-center mr-2 mb-2'
+                    href={route('use_cases_index', projects.id)}
+                >
+                    CASOS DE USO
+                </NavLink>
+                <NavLink
+                    className='h-[50px] text-white bg-gradient-to-br from-pink-600 to-yellow-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 text-center mr-2 mb-2'
+                    href={route('use_cases_index', projects.id)}
+                >
+                    GENERAR REPORTE
+                </NavLink>
             </div>
         </Authenticated>
     )

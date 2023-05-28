@@ -28,7 +28,7 @@ class RequirementController extends Controller
         //data validation
         $request->validate([
             'key' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
+            'description' => 'required|string',
             'is_functional' => 'required',
             'project_id' => 'required'
         ]);
@@ -49,7 +49,7 @@ class RequirementController extends Controller
         //data validation
         $validated = $request->validate([
             'key' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
+            'description' => 'required|string',
             'is_functional' => 'required',
             'project_id' => 'required'
         ]);

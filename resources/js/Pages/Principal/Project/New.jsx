@@ -18,6 +18,7 @@ const New = ({auth}) => {
             <Head title="Create Project" />
             <div className='max-w-2x1 mx-auto p-4 sm:p-6 lg:p-8'>
                 <form onSubmit={submit} className='w-full max-w-md mx-auto mt-8'>
+                    <label>Proyecto:</label>
                     <textarea
                         value={data.project_name}
                         onChange={(e) => setData('project_name', e.target.value)}
@@ -26,11 +27,12 @@ const New = ({auth}) => {
                         className='h-[120px] mb-3 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.project_name} className='mb-3' />
+                    <label>Responsable:</label>
                     <input
                         type="text"
                         value={data.user_name}
                         onChange={(e) => setData('user_name', e.target.value)}
-                        placeholder='Responsable'
+                        placeholder='Persona responsable'
                         className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.user_name} className='mt-3' />

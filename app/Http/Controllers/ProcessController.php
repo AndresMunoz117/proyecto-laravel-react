@@ -58,8 +58,8 @@ class ProcessController extends Controller
         $request->validate([
             'template_name' => 'required|string|max:100',
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
-            'entry' => 'required|string|max:100',
+            'description' => 'required|string',
+            'entry' => 'required|string',
             'image' => 'required|image',
             'actors' => 'required',
             'project_id' => 'required'
@@ -81,7 +81,6 @@ class ProcessController extends Controller
         $process_id = Process::where('template_name', $process->template_name)->pluck('id');
 
         $actors = $request->actors;
-
         foreach ($actors as $actor) {
             $process_actor = new Actor_Process();
             $process_actor->actor_id = +$actor;
@@ -99,8 +98,8 @@ class ProcessController extends Controller
         $request->validate([
             'template_name' => 'required|string|max:100',
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
-            'entry' => 'required|string|max:100',
+            'description' => 'required|string',
+            'entry' => 'required|string',
             'image' => 'required|image',
             'actors' => 'required',
             'project_id' => 'required'
@@ -120,7 +119,6 @@ class ProcessController extends Controller
         Actor_Process::where('process_id', $id)->delete();
 
         $actors = $request->actors;
-
         foreach ($actors as $actor) {
             $process_actor = new Actor_Process();
             $process_actor->actor_id = +$actor;
@@ -138,9 +136,6 @@ class ProcessController extends Controller
     {
         $process = Process::find($id);
         $process->delete();
-
-        $actor_process = Actor_Process::where('process_id', $id)->get();
-        $actor_process->each->delete();
 
         return redirect(route('processes_index', $process->project_id));
     }

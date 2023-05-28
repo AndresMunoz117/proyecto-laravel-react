@@ -20,15 +20,17 @@ const New = ({auth, project}) => {
             <Head title="Create Requirement" />
             <div className='max-w-2x1 mx-auto p-4 sm:p-6 lg:p-8'>
                 <form onSubmit={submit} className='w-full max-w-md mx-auto mt-8'>
+                    <label>Clave:</label>
                     <input
                         type="text"
                         value={data.key}
                         autoFocus
                         onChange={(e) => setData('key', e.target.value)}
-                        placeholder='Clave'
+                        placeholder='Clave de la entidad'
                         className='shadow mb-3 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.key} className='mt-3' />
+                    <label>Nombre:</label>
                     <input
                         type="text"
                         value={data.name}
@@ -37,6 +39,7 @@ const New = ({auth, project}) => {
                         className='shadow mb-3 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     />
                     <InputError message={errors.name} className='mt-3' />
+                    <label>Descripción:</label>
                     <textarea
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}

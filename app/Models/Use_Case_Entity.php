@@ -10,4 +10,9 @@ class Use_Case_Entity extends Model
     use HasFactory;
     public $table = 'use_case_entities';
     public $timestamps = false;
+
+    protected $fillable = [
+        'use_case_id',
+        'entities_id',
+    ];
 }

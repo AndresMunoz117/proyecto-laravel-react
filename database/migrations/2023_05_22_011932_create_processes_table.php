@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->text('entry');
-            //change 'image' type to LONGBLOB directly
             $table->longText('image');
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

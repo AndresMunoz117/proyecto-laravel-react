@@ -29,12 +29,12 @@ class ActorController extends Controller
         $request->validate([
             'key' => 'required|string|max:100',
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
-            'characteristics' => 'required|string|max:100',
-            'relations' => 'required|string|max:100',
-            'responsability' => 'required|string|max:100',
-            'entry_activities' => 'required|string|max:100',
-            'exit_activities' => 'required|string|max:100',
+            'description' => 'required|string',
+            'characteristics' => 'required|string',
+            'relations' => 'required|string',
+            'responsability' => 'required|string',
+            'entry_activities' => 'required|string',
+            'exit_activities' => 'required|string',
             'project_id' => 'required'
         ]);
 
@@ -60,12 +60,12 @@ class ActorController extends Controller
         $validated = $request->validate([
             'key' => 'required|string|max:100',
             'name' => 'required|string|max:100',
-            'description' => 'required|string|max:100',
-            'characteristics' => 'required|string|max:100',
-            'relations' => 'required|string|max:100',
-            'responsability' => 'required|string|max:100',
-            'entry_activities' => 'required|string|max:100',
-            'exit_activities' => 'required|string|max:100',
+            'description' => 'required|string',
+            'characteristics' => 'required|string',
+            'relations' => 'required|string',
+            'responsability' => 'required|string',
+            'entry_activities' => 'required|string',
+            'exit_activities' => 'required|string',
             'project_id' => 'required'
         ]);
 

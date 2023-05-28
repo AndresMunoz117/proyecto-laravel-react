@@ -6,6 +6,7 @@ use App\Http\Controllers\ActorController;
 use App\Http\Controllers\EntityController;
 use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UseCaseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -64,6 +65,14 @@ Route::controller(ProcessController::class)->group(function (){
     Route::delete('/processes/destroy/{id}', 'destroy')->name('processes_destroy');
 })->middleware(['auth']);
 
+//use cases
+Route::controller(UseCaseController::class)->group(function (){
+    Route::get('/use_case/{id}', 'index')->name('use_cases_index');
+    Route::get('/use_cases/new/{id}', 'create')->name('use_cases_new');
+    Route::post('/use_cases/store', 'store')->name('use_cases_store');
+    Route::post('/use_cases/update/{id}', 'update')->name('use_cases_update');
+    Route::delete('/use_cases/destroy/{id}', 'destroy')->name('use_cases_destroy');
+})->middleware(['auth']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

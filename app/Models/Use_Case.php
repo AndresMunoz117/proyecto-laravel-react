@@ -17,6 +17,18 @@ class Use_Case extends Model
     use HasFactory;
     public $table = 'use_cases';
 
+    protected $fillable = [
+        'key',
+        'name',
+        'description',
+        'precondition',
+        'sequence',
+        'postcondition',
+        'exceptions',
+        'image',
+        'project_id'
+    ];
+
     public function project(){
         return $this->belongsTo(Project::class);
     }

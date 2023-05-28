@@ -100,7 +100,7 @@ const Process = ({process, info, actors, actorID}) => {
                             Descripción
                         </td>
                         <td className="bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
+                            <pre style={{overflow: 'hidden', maxWidth: 'calc(100%)'}}>
                                 <textarea
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
@@ -114,7 +114,7 @@ const Process = ({process, info, actors, actorID}) => {
                             Flujo de actividades
                         </td>
                         <td className="w-full bg-gray-200 whitespace-nowrap px-4 py-2 border dark:border-neutral-500 border-dashed">
-                            <pre style={{overflow: 'hidden', maxWidth: '800px'}}>
+                            <pre style={{overflow: 'hidden', maxWidth: 'calc(100%)'}}>
                                 <textarea
                                     value={data.entry}
                                     onChange={(e) => setData('entry', e.target.value)}
